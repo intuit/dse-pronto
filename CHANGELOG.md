@@ -2,6 +2,6 @@
 
 #### Initial Revision
 
-- [1.0.0](releases/tag/1.0.0): added changelog + other docs
+- [1.0.0](https://github.com/intuit/dse-pronto/releases/tag/1.0.0): added changelog + other docs
 
 #### Authors: @bencovi
