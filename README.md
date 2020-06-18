@@ -1,4 +1,4 @@
-# Pronto
+# DSE Pronto
 
 An automation suite for deploying and managing [DataStax Cassandra](https://docs.datastax.com/en/landing_page/doc/landing_page/current.html)
 clusters in AWS.
