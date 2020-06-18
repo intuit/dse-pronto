@@ -1,0 +1,53 @@
+##################################################
+# these vars are required for packer AMI baking
+##################################################
+
+# AWS credentials for the AMI baking account
+PACKER_AWS_PROFILE:         "packer"
+PACKER_AWS_REGION:          "<<< YOUR_AMI_BAKING_VPC_REGION_HERE >>>"
+
+# packer will bake AMIs in the following account/vpc/subnet
+PACKER_ACCOUNT_ID:          "<<< YOUR_AMI_BAKING_ACCOUNT_ID_HERE >>>"
+PACKER_VPC_ID:              "<<< YOUR_AMI_BAKING_VPC_ID_HERE >>>"
+PACKER_SUBNET_ID:           "<<< YOUR_AMI_BAKING_SUBNET_ID_HERE >>>"
+
+# source AMI to use as the baseline.  if not set, a suitable amzn2 image will be found when packer runs.
+PACKER_BASE_AMI_ID:         ""
+
+# versions of DSE and OpsCenter artifacts to install
+PACKER_DSE_FULL_VER:        "5.1.11-1"
+PACKER_DS_AGENT_VER:        "6.1.7-1"
+PACKER_OPSCENTER_FULL_VER:  "6.7.4-1"
+PACKER_DS_STUDIO_VER:       "6.7.0"
+
+##################################################
+# these vars are required for terraform deployments
+##################################################
+
+# AWS credentials for the deployment target account
+TERRAFORM_AWS_CRED_PATH:    "~/.aws/credentials"
+TERRAFORM_AWS_PROFILE:      "terraform"
+TERRAFORM_AWS_REGION:       "<<< YOUR_TARGET_VPC_REGION_HERE >>>"
+
+# bucket name and region for terraform's TFSTATE location
+TERRAFORM_STATE_BUCKET:     "<<< YOUR_TFSTATE_BUCKET_NAME_HERE >>>"
+TERRAFORM_STATE_REGION:     "<<< YOUR_TFSTATE_REGION_HERE >>>"
+
+# the account terraform will deploy into
+TERRAFORM_ACCOUNT_ID:       "<<< YOUR_TARGET_ACCOUNT_ID_HERE >>>"
+
+# if this is set to true, TF will deploy a suitable vpc.  if false, TF will expect you to have your own vpc.
+TERRAFORM_MANAGED_VPC:      "true"
+
+# role for terraform to assume in the target account
+TERRAFORM_ASSUME_ROLE:      "terraform-role"
+
+##################################################
+# these vars are used to generate user-keys.yaml
+##################################################
+
+# path on disk to ansible public SSH key; if it doesn't exist, a new key will be created at this path
+TERRAFORM_ANSIBLE_KEY_PATH: "~/.ssh/ansible_id_rsa.pub"
+
+# path on disk to a public key (for ec2-user); if it doesn't exist, only the ansible SSH key will be included
+TERRAFORM_SSH_KEY_PATH:     "~/.ssh/id_rsa.pub"

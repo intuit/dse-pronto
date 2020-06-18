@@ -1,0 +1,11 @@
+.idea/
+__pycache__/
+core-components/roles/assume-role.json
+core-components/terraform/build
+user-keys.yaml
+*.crt
+*.key
+*.tfstate
+ssh_config
+hosts
+.DS_Store

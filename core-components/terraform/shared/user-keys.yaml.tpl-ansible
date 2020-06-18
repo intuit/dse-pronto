@@ -1,0 +1,15 @@
+# cloud-config
+system_info:
+  default_user:
+    name: ec2-user
+
+groups:
+  - default: [users]
+
+users:
+  - name: ansible
+    groups: default
+    shell: /bin/bash
+    sudo: ['ALL=(ALL) NOPASSWD:ALL']
+    ssh-authorized-keys:
+      - ##ANSIBLE_PUB_KEY##

@@ -1,0 +1,45 @@
+[jmx]
+username =
+password =
+port = 7199
+
+[kerberos_client_principals]
+
+[kerberos]
+
+[storage_cassandra]
+username = cassandra
+keyspace = OpsCenter_##CLUSTER##
+seed_hosts = ##STORAGE_SEEDS##
+cql_port = 9142
+password = ##STORAGE_PASS##
+connect_timeout = 6.0
+ssl_keystore = ##STORAGE_KEYSTORE##
+ssl_keystore_password = ##STORAGE_KEYPASS##
+ssl_truststore = ##STORAGE_TRUSTSTORE##
+ssl_truststore_password = ##STORAGE_TRUSTPASS##
+
+[collection]
+nodelist_poll_period = 1800
+
+[agents]
+
+[kerberos_hostnames]
+
+[kerberos_services]
+
+[cassandra]
+username = cassandra
+seed_hosts = ##CAS_CLUSTER_SEEDS##
+cql_port = 9142
+password = ##CAS_CLUSTER_PASS##
+ssl_keystore = ##CAS_CLUSTER_KEYSTORE##
+ssl_keystore_password = ##CAS_CLUSTER_KEYPASS##
+ssl_truststore = ##CAS_CLUSTER_TRUSTSTORE##
+ssl_truststore_password = ##CAS_CLUSTER_TRUSTPASS##
+
+[agents]
+ssl_keystore = /etc/dse/cassandra/keystores/server-keystore.jks
+ssl_keystore_password = ##CAS_CLUSTER_KEYPASS##
+storage_ssl_keystore = /etc/dse/cassandra/keystores/storage-server-keystore.jks
+storage_ssl_keystore_password = ##STORAGE_KEYPASS##

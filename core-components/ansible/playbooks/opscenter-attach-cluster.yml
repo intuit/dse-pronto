@@ -1,0 +1,28 @@
+---
+# This playbook registers a cluster with opscenter.
+
+- name: register cluster with opscenter
+  gather_facts: false
+  hosts:
+    - '{{ opscenter_ip }}'
+  serial: 1
+
+  vars:
+    tfstate_bucket: { tfstate_bucket }
+    target_cluster: { target_cluster }
+    vpc_name: { vpc_name }
+    account_name: { account_name }
+
+  tasks:
+    - name: register cluster
+      become: true
+      action: shell /etc/opscenter/scripts/register_cluster_with_opscenter.sh {{ tfstate_bucket }} {{ target_cluster }} {{ vpc_name }} {{ account_name }}
+      register: result
+
+    - debug: msg="{{ result.stdout }}"
+
+    - name: restart opscenterd service
+      become: true
+      service:
+        name: opscenterd
+        state: restarted

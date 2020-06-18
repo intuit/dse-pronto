@@ -1,0 +1,580 @@
+[
+    {
+        "shared": false,
+        "preset_data": [
+            {
+                "data": [
+                    {
+                        "ip": [
+                            "__cluster__"
+                        ],
+                        "source": "us-west-2",
+                        "colfam": [],
+                        "tier": [],
+                        "metric": "read-ops"
+                    }
+                ],
+                "type": "metrics"
+            },
+            {
+                "data": [
+                    {
+                        "ip": [
+                            "__cluster__"
+                        ],
+                        "source": "us-west-2",
+                        "colfam": [],
+                        "tier": [],
+                        "metric": "read-histogram"
+                    }
+                ],
+                "type": "metrics"
+            },
+            {
+                "data": [
+                    {
+                        "ip": [
+                            "__cluster__"
+                        ],
+                        "source": "us-west-2",
+                        "colfam": [],
+                        "tier": [],
+                        "metric": "write-ops"
+                    }
+                ],
+                "type": "metrics"
+            },
+            {
+                "data": [
+                    {
+                        "ip": [
+                            "__cluster__"
+                        ],
+                        "source": "us-west-2",
+                        "colfam": [],
+                        "tier": [],
+                        "metric": "write-histogram"
+                    }
+                ],
+                "type": "metrics"
+            },
+            {
+                "data": [
+                    {
+                        "ip": [
+                            "__cluster__"
+                        ],
+                        "source": "us-west-2",
+                        "colfam": [],
+                        "tier": [],
+                        "metric": "pending-compaction-tasks"
+                    }
+                ],
+                "type": "metrics"
+            },
+            {
+                "data": [
+                    {
+                        "ip": [
+                            "__cluster__"
+                        ],
+                        "source": "us-west-2",
+                        "colfam": [],
+                        "tier": [],
+                        "metric": "g1-young-collection-count"
+                    }
+                ],
+                "type": "metrics"
+            },
+            {
+                "data": [
+                    {
+                        "ip": [
+                            "__cluster__"
+                        ],
+                        "source": "us-west-2",
+                        "colfam": [],
+                        "tier": [],
+                        "metric": "g1-young-collection-time"
+                    }
+                ],
+                "type": "metrics"
+            },
+            {
+                "data": [
+                    {
+                        "ip": [
+                            "__cluster__"
+                        ],
+                        "source": "us-west-2",
+                        "colfam": [],
+                        "tier": [],
+                        "metric": "g1-old-collection-count"
+                    }
+                ],
+                "type": "metrics"
+            },
+            {
+                "data": [
+                    {
+                        "ip": [
+                            "__cluster__"
+                        ],
+                        "source": "us-west-2",
+                        "colfam": [],
+                        "tier": [],
+                        "metric": "g1-old-collection-time"
+                    }
+                ],
+                "type": "metrics"
+            },
+            {
+                "data": [
+                    {
+                        "ip": [
+                            "__cluster__"
+                        ],
+                        "source": "us-west-2",
+                        "colfam": [],
+                        "tier": [],
+                        "metric": "dropped-reads"
+                    }
+                ],
+                "type": "metrics"
+            },
+            {
+                "data": [
+                    {
+                        "ip": [
+                            "__cluster__"
+                        ],
+                        "source": "us-west-2",
+                        "colfam": [],
+                        "tier": [],
+                        "metric": "dropped-mutations"
+                    }
+                ],
+                "type": "metrics"
+            },
+            {
+                "data": [
+                    {
+                        "ip": [
+                            "__cluster__"
+                        ],
+                        "source": "us-west-2",
+                        "colfam": [],
+                        "tier": [],
+                        "metric": "key-cache-hit-rate"
+                    }
+                ],
+                "type": "metrics"
+            },
+            {
+                "data": [
+                    {
+                        "ip": [
+                            "__cluster__"
+                        ],
+                        "source": "us-west-2",
+                        "colfam": [],
+                        "tier": [],
+                        "metric": "native-connections"
+                    }
+                ],
+                "type": "metrics"
+            },
+            {
+                "data": [
+                    {
+                        "ip": [
+                            "__cluster__"
+                        ],
+                        "source": "us-west-2",
+                        "colfam": [],
+                        "tier": [],
+                        "metric": "read-repaired-blocking"
+                    }
+                ],
+                "type": "metrics"
+            },
+            {
+                "data": [
+                    {
+                        "ip": [
+                            "__cluster__"
+                        ],
+                        "source": "us-west-2",
+                        "colfam": [],
+                        "tier": [],
+                        "metric": "cpu"
+                    }
+                ],
+                "type": "metrics"
+            },
+            {
+                "data": [
+                    {
+                        "ip": [
+                            "__cluster__"
+                        ],
+                        "source": "us-west-2",
+                        "colfam": [],
+                        "tier": [],
+                        "metric": "os-cpu-steal"
+                    }
+                ],
+                "type": "metrics"
+            },
+            {
+                "data": [
+                    {
+                        "ip": [
+                            "__cluster__"
+                        ],
+                        "source": "us-west-2",
+                        "colfam": [],
+                        "tier": [],
+                        "metric": "os-cpu-iowait"
+                    }
+                ],
+                "type": "metrics"
+            },
+            {
+                "data": [
+                    {
+                        "ip": [
+                            "__cluster__"
+                        ],
+                        "source": "us-west-2",
+                        "colfam": [],
+                        "tier": [],
+                        "metric": "os-disk-queue-size"
+                    }
+                ],
+                "type": "metrics"
+            },
+            {
+                "data": [
+                    {
+                        "ip": [
+                            "__cluster__"
+                        ],
+                        "source": "us-west-2",
+                        "colfam": [],
+                        "tier": [],
+                        "metric": "os-disk-utilization"
+                    }
+                ],
+                "type": "metrics"
+            },
+            {
+                "data": [
+                    {
+                        "ip": [
+                            "__cluster__"
+                        ],
+                        "source": "us-west-2",
+                        "colfam": [],
+                        "tier": [],
+                        "metric": "os-disk-read-throughput"
+                    }
+                ],
+                "type": "metrics"
+            },
+            {
+                "data": [
+                    {
+                        "ip": [
+                            "__cluster__"
+                        ],
+                        "source": "us-west-2",
+                        "colfam": [],
+                        "tier": [],
+                        "metric": "os-disk-write-throughput"
+                    }
+                ],
+                "type": "metrics"
+            },
+            {
+                "data": [
+                    {
+                        "ip": [
+                            "__cluster__"
+                        ],
+                        "source": "us-west-2",
+                        "colfam": [],
+                        "tier": [],
+                        "metric": "os-memory"
+                    }
+                ],
+                "type": "metrics"
+            },
+            {
+                "data": [
+                    {
+                        "ip": [
+                            "__cluster__"
+                        ],
+                        "source": "us-west-2",
+                        "colfam": [],
+                        "tier": [],
+                        "metric": "heap-max"
+                    }
+                ],
+                "type": "metrics"
+            },
+            {
+                "data": [
+                    {
+                        "ip": [
+                            "__cluster__"
+                        ],
+                        "source": "us-west-2",
+                        "colfam": [],
+                        "tier": [],
+                        "metric": "cf-sstables-per-read"
+                    }
+                ],
+                "type": "metrics"
+            },
+            {
+                "data": [
+                    {
+                        "ip": [
+                            "__cluster__"
+                        ],
+                        "source": "us-west-2",
+                        "colfam": [],
+                        "tier": [],
+                        "metric": "cf-live-sstables"
+                    }
+                ],
+                "type": "metrics"
+            },
+            {
+                "data": [
+                    {
+                        "ip": [
+                            "__cluster__"
+                        ],
+                        "source": "us-west-2",
+                        "colfam": [],
+                        "tier": [],
+                        "metric": "g1-old-collection-time"
+                    }
+                ],
+                "type": "metrics"
+            },
+            {
+                "data": [
+                    {
+                        "ip": [
+                            "__cluster__"
+                        ],
+                        "source": "us-west-2",
+                        "colfam": [],
+                        "tier": [],
+                        "metric": "g1-young-collection-time"
+                    }
+                ],
+                "type": "metrics"
+            },
+            {
+                "data": [
+                    {
+                        "ip": [
+                            "__cluster__"
+                        ],
+                        "source": "us-west-2",
+                        "colfam": [],
+                        "tier": [],
+                        "metric": "os-load"
+                    }
+                ],
+                "type": "metrics"
+            },
+            {
+                "data": [
+                    {
+                        "ip": [
+                            "__cluster__"
+                        ],
+                        "source": "us-west-2",
+                        "colfam": [],
+                        "tier": [],
+                        "metric": "os-cpu-user"
+                    }
+                ],
+                "type": "metrics"
+            },
+            {
+                "data": [
+                    {
+                        "ip": [
+                            "__cluster__"
+                        ],
+                        "source": "us-west-2",
+                        "colfam": [],
+                        "tier": [],
+                        "metric": "os-disk-usage"
+                    }
+                ],
+                "type": "metrics"
+            },
+            {
+                "data": [
+                    {
+                        "ip": [
+                            "__cluster__"
+                        ],
+                        "source": "us-west-2",
+                        "colfam": [],
+                        "tier": [],
+                        "metric": "os-disk-free"
+                    }
+                ],
+                "type": "metrics"
+            },
+            {
+                "data": [
+                    {
+                        "ip": [],
+                        "source": "us-west-2",
+                        "colfam": [],
+                        "tier": [],
+                        "metric": "g1-young-collection-count"
+                    }
+                ],
+                "type": "metrics"
+            },
+            {
+                "data": [
+                    {
+                        "ip": [
+                            "__cluster__"
+                        ],
+                        "source": "us-west-2",
+                        "colfam": [],
+                        "tier": [],
+                        "metric": "stream-in-total"
+                    }
+                ],
+                "type": "metrics"
+            },
+            {
+                "data": [
+                    {
+                        "ip": [
+                            "__cluster__"
+                        ],
+                        "source": "us-west-2",
+                        "colfam": [],
+                        "tier": [],
+                        "metric": "stream-out-total"
+                    }
+                ],
+                "type": "metrics"
+            },
+            {
+                "data": [
+                    {
+                        "ip": [
+                            "__cluster__"
+                        ],
+                        "source": "us-west-2",
+                        "colfam": [],
+                        "tier": [],
+                        "metric": "cf-write-ops"
+                    }
+                ],
+                "type": "metrics"
+            },
+            {
+                "data": [
+                    {
+                        "ip": [
+                            "__cluster__"
+                        ],
+                        "source": "us-west-2",
+                        "colfam": [],
+                        "tier": [],
+                        "metric": "heap-used"
+                    }
+                ],
+                "type": "metrics"
+            },
+            {
+                "data": [
+                    {
+                        "ip": [
+                            "__cluster__"
+                        ],
+                        "source": "us-west-2",
+                        "colfam": [],
+                        "tier": [],
+                        "metric": "data-load"
+                    }
+                ],
+                "type": "metrics"
+            },
+            {
+                "data": [
+                    {
+                        "ip": [
+                            "__cluster__"
+                        ],
+                        "source": "us-west-2",
+                        "colfam": [],
+                        "tier": [],
+                        "metric": "os-disk-usage"
+                    }
+                ],
+                "type": "metrics"
+            },
+            {
+                "data": [
+                    {
+                        "ip": [
+                            "__cluster__"
+                        ],
+                        "source": "us-west-2",
+                        "colfam": [],
+                        "tier": [],
+                        "metric": "dropped-mutations"
+                    }
+                ],
+                "type": "metrics"
+            },
+            {
+                "data": [
+                    {
+                        "ip": [
+                            "__cluster__"
+                        ],
+                        "source": "us-west-2",
+                        "colfam": [],
+                        "tier": [],
+                        "metric": "dropped-reads"
+                    }
+                ],
+                "type": "metrics"
+            },
+            {
+                "data": [
+                    {
+                        "ip": [
+                            "__cluster__"
+                        ],
+                        "source": "us-west-2",
+                        "colfam": [],
+                        "tier": [],
+                        "metric": "cf-total-disk-used"
+                    }
+                ],
+                "type": "metrics"
+            }
+        ],
+        "name": "Custom"
+    }
+]

@@ -1,0 +1,72 @@
+---
+# This playbook installs a basic set of alerts and dashboards on opscenter.
+
+- name: install alerts and dashboards
+  gather_facts: false
+  hosts:
+    - '{{ opscenter_ip }}'
+  serial: 1
+
+  vars:
+    tfstate_bucket: { tfstate_bucket }
+    target_cluster: { target_cluster }
+    target_vpc: { target_vpc }
+    target_account: { target_account }
+    region: { region }
+    opscenter_config_path: { opscenter_config_path }
+
+  tasks:
+    - name: copy scripts
+      become: true
+      copy:
+        src: ../scripts/
+        dest: /tmp/scripts/
+        directory_mode: yes
+
+    - name: copy configs
+      become: true
+      copy:
+        src: "{{ opscenter_config_path }}"
+        dest: /tmp/scripts/
+        directory_mode: yes
+
+    - name: add alerts
+      become: true
+      shell: |
+        cd /tmp/scripts
+        export secrets_ssm_path=/dse/{{ target_account }}/{{ target_vpc }}/opscenter-resources/secrets
+        ops_admin_pass=$(aws --region {{ region }} ssm get-parameter --name ${secrets_ssm_path}/ops_admin --with-decryption | jq -r '.[].Value' | base64 -d)
+        export OPS_ADMIN_PWD=${ops_admin_pass}
+        python3 ./cluster-opscenter-mgr.py -p ./opscenter-configs/opscenter-alerts.json -c {{ target_cluster }} -o add_alerts -u https://localhost:8443
+        aws s3 sync /var/lib/opscenter/  "s3://{{ tfstate_bucket }}/{{ target_account }}/{{ target_vpc }}/opscenter-resources/files/varlib/" --region {{ region }}
+      register: result
+
+    - debug: msg="{{ result.stdout }}"
+
+    - name: add dashboards
+      become: true
+      shell: |
+        cd /tmp/scripts
+        export region=$(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone | sed 's/\(.*\)[a-z]/\1/')
+        export secrets_ssm_path=/dse/{{ target_account }}/{{ target_vpc }}/opscenter-resources/secrets
+        ops_admin_pass=$(aws --region {{ region }} ssm get-parameter --name ${secrets_ssm_path}/ops_admin --with-decryption | jq -r '.[].Value' | base64 -d)
+        export OPS_ADMIN_PWD=${ops_admin_pass}
+        python3 ./cluster-opscenter-mgr.py -p ./opscenter-configs/opscenter-dashboard.json -c {{ target_cluster }} -o add_dashboards -u https://localhost:8443
+        aws s3 sync /var/lib/opscenter/  "s3://{{ tfstate_bucket }}/{{ target_account }}/{{ target_vpc }}/opscenter-resources/files/varlib/" --region {{ region }}
+      register: result
+
+    - debug: msg="{{ result.stdout }}"
+
+    - name: disable subset of best-practice rules
+      become: true
+      shell: |
+        cd /tmp/scripts
+        export region=$(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone | sed 's/\(.*\)[a-z]/\1/')
+        export secrets_ssm_path=/dse/{{ target_account }}/{{ target_vpc }}/opscenter-resources/secrets
+        ops_admin_pass=$(aws --region {{ region }} ssm get-parameter --name ${secrets_ssm_path}/ops_admin --with-decryption | jq -r '.[].Value' | base64 -d)
+        export OPS_ADMIN_PWD=${ops_admin_pass}
+        python3 ./cluster-opscenter-mgr.py -p ./opscenter-configs/opscenter-enabled-bestpractices.json -c {{ target_cluster }} -o update_bestpractices -u https://localhost:8443
+        aws s3 sync /var/lib/opscenter/  "s3://{{ tfstate_bucket }}/{{ target_account }}/{{ target_vpc }}/opscenter-resources/files/varlib/" --region {{ region }}
+      register: result
+
+    - debug: msg="{{ result.stdout }}"

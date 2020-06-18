@@ -1,0 +1,25 @@
+---
+# This playbook initializes the DSE application, and changes the default cassandra user password.
+
+- name: initialize DSE application
+  gather_facts: false
+  hosts:
+    - all
+  serial: 1
+
+  vars:
+    secrets_ssm_location: { secrets_ssm_location }
+    region: { region }
+
+  tasks:
+    - name: copy script
+      copy:
+        src: ../scripts/cluster-init.sh
+        dest: /tmp/cluster-init.sh
+        mode: a+x
+
+    - name: change cassandra password
+      become: true
+      shell:
+        cmd: /tmp/cluster-init.sh {{ secrets_ssm_location }} {{ region }}
+      register: result

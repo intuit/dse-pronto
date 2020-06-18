@@ -1,0 +1,223 @@
+[
+    {
+        "rule": "check-high-rf",
+        "display-name": "Replication factor out of bounds",
+        "enabled": 1
+    },
+    {
+        "rule": "check-snitch",
+        "display-name": "SimpleSnitch usage found",
+        "enabled": 1
+    },
+    {
+        "rule": "check-vnodes",
+        "display-name": "Vnode configuration",
+        "enabled": 0
+    },
+    {
+        "rule": "check-simple-strategy",
+        "display-name": "SimpleStrategy keyspace usage found",
+        "enabled": 1
+    },
+    {
+        "rule": "check-repair-service-enabled",
+        "display-name": "Repair service not enabled",
+        "enabled": 0
+      },
+      {
+        "rule": "check-repair-service-configured-correctly",
+        "display-name": "Repair service not configured correctly",
+        "enabled": 1
+      },
+      {
+        "rule": "check-ssl-with-auth",
+        "display-name": "Security not enabled for DataStax agents",
+        "enabled": 0
+      },
+      {
+        "rule": "check-swap-space",
+        "display-name": "Swap space is enabled",
+        "enabled": 1
+      },
+                
+      {
+        "rule": "check-dc-seed-nodes",
+        "display-name": "Seed node configuration",
+        "enabled": 0
+      },
+      {
+        "rule": "check-nodesync-running",
+        "display-name": "NodeSync Not Running ",
+        "enabled": 1
+      },
+      {
+        "rule": "check-auto-snapshot",
+        "display-name": "Auto Snapshot not enabled ",
+        "enabled": 0
+      },
+      {
+        "rule": "check-cla",
+        "display-name": "Commit Log Archiving Setting Enabled Consistency",
+        "enabled": 1
+      },
+      {
+        "rule": "check-system-auth-replication",
+        "display-name": "Security keyspace not properly replicated",
+        "enabled": 1
+      },
+      {
+        "rule": "check-cassandra-user",
+        "display-name": "Security superuser has default setting",
+        "enabled": 0
+      },
+      {
+        "rule": "check-cassandra-auth-enabled",
+        "display-name": "Improper Security authentication setting",
+        "enabled": 1
+      },
+      {
+        "rule": "check-opscenter-auth-password",
+        "display-name": "Incorrect OpsCenter authentication setting",
+        "enabled": 0
+      },
+      {
+        "rule": "check-vnodes-search",
+        "display-name": "Vnode configuration on Search nodes",
+        "enabled": 1
+      },
+      {
+        "rule": "check-solr-soft-commit-threshold",
+        "display-name": "Search nodes enabled with bad autocommit",
+        "enabled": 1
+      },
+      {
+        "rule": "check-solr-query-result-cache",
+        "display-name": "Search nodes enabled with query result cache",
+        "enabled": 1
+      },
+      {
+        "rule": "check-solr-filter-cache",
+        "display-name": "Search nodes with bad filter cache size",
+        "enabled": 1
+      },
+      {
+        "rule": "check-solr-row-cache",
+        "display-name": "Search nodes enabled with row cache",
+        "enabled": 1
+      },
+      {
+        "rule": "check-solr-key-cache",
+        "display-name": "Search nodes have default key cache size",
+        "enabled": 1
+      },
+      {
+        "rule": "check-solr-heap-size",
+        "display-name": "Search nodes have improper heap size",
+        "enabled": 1
+      },
+      {
+        "rule": "check-clock-sync",
+        "display-name": "Clocks in cluster out of sync",
+        "enabled": 1
+      },
+      {
+        "rule": "check-cassandra-agent-user-match",
+        "display-name": "Cassandra-user and agent-user match",
+        "enabled": 1
+      },
+      {
+        "rule": "check-utc",
+        "display-name": "Clocks in UTC",
+        "enabled": 1
+      },
+      {
+        "rule": "check-oracle-java",
+        "display-name": "Require Oracle HotSpot or OpenJDK",
+        "enabled": 1
+      },
+      {
+        "rule": "check-wide-partitions",
+        "display-name": "Wide partitions",
+        "enabled": 0
+      },
+      {
+        "rule": "check-2i-cardinality",
+        "display-name": "Secondary indexes cardinality",
+        "enabled": 1
+      },
+      {
+        "rule": "check-tombstones",
+        "display-name": "Tombstone count",
+        "enabled": 1
+      },
+      {
+        "rule": "check-compaction-strategy",
+        "display-name": "Compaction Strategy",
+        "enabled": 1
+      },
+      {
+        "rule": "read-stage",
+        "display-name": "Read Stage",
+        "enabled": 1
+      },
+      {
+        "rule": "mutation-stage",
+        "display-name": "Mutation Stage",
+        "enabled": 1
+      },
+      {
+        "rule": "check-replicate-on-write-stage",
+        "display-name": "ReplicateOnWriteStage Stress",
+        "enabled": 1
+      },
+      {
+        "rule": "check-read-request-timeout",
+        "display-name": "Read request timeout not optimal",
+        "enabled": 1
+      },
+      {
+        "rule": "check-range-request-timeout",
+        "display-name": "Range request timeout not optimal",
+        "enabled": 1
+      },
+      {
+        "rule": "check-write-request-timeout",
+        "display-name": "Write request timeout not optimal",
+        "enabled": 1
+      },
+      {
+        "rule": "check-diff-listen-rpc-address",
+        "display-name": "Different Listen and RPC Addresses",
+        "enabled": 0
+      },
+      {
+        "rule": "check-opscenter-failover",
+        "display-name": "OpsCenter Failover Enabled",
+        "enabled": 0
+      },
+      {
+        "rule": "check-queries-prepared-statements",
+        "display-name": "Use prepared statements",
+        "enabled": 0
+      },
+      {
+        "rule": "check-queries-allow-filtering",
+        "display-name": "Avoid ALLOW FILTERING",
+        "enabled": 1
+      },
+      {
+        "rule": "check-queries-large-batch",
+        "display-name": "Avoid using large batches",
+        "enabled": 1
+      },
+    {
+      "rule": "check-queries-counter-vs-count",
+      "display-name": "Use counter instead of count",
+      "enabled": 0
+    },
+    {
+      "rule": "check-queries-huge-in-clause",
+      "display-name": "Minimize keys in IN clause",
+      "enabled": 1
+    }
+  ]

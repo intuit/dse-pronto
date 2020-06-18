@@ -1,0 +1,38 @@
+---
+# This playbook starts the DSE service on the seed nodes, then the non-seeds, one at time.
+
+- name: start DSE service
+  gather_facts: false
+  hosts:
+    - '{{ host_list }}'
+  serial: 1
+
+  tasks:
+    - name: capture host IP
+      shell: hostname -I | awk {'print $1'}
+      register: host_ip
+
+    - name: gather number of volumes mounted
+      action: shell df -h | grep -i /mnt/cassandra | wc -l
+      register: cas_vols_mounted
+
+    - debug: msg="{{ cas_vols_mounted.stdout }}"
+
+    - name: start DSE service
+      become: true
+      shell: service dse start
+      when: cas_vols_mounted.stdout == "2"
+
+    # 9142 = dse client port (ssl)
+    - wait_for:
+        port: 9142
+        host: "{{ host_ip.stdout }}"
+        delay: 10
+        timeout: 600
+
+    - name: wait for UN
+      shell: nodetool status | grep "{{ host_ip.stdout }}" | awk {'print $1'}
+      register: result
+      until: result.stdout.find("UN") != -1
+      retries: 5
+      delay: 10

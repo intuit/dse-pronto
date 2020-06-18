@@ -1,0 +1,12 @@
+#!/usr/bin/env ruby
+#^syntax detection
+
+load "#{__dir__}/../../scripts/berkshelf_helper.rb"
+
+source 'https://supermarket.chef.io'
+
+
+
+df_cookbook 'yum_s3_repository'
+df_cookbook 'java_jdk'
+df_cookbook 'dp_opscenter'

@@ -1,0 +1,15 @@
+---
+# This playbook unmounts data volumes.
+
+- name: unmount DSE data volumes
+  gather_facts: false
+  hosts:
+    - '{{ host_list }}'
+  serial: 1
+
+  tasks:
+    - name: unmount volumes
+      become: true
+      shell: |
+        cd /opt/dse/cassandra/scripts
+        ./unmount_volumes.sh"

@@ -1,0 +1,32 @@
+---
+# This playbook registers the cluster with opscenter via the DS agent.
+
+- name: update Datastax Agent to connect with OpsCenter
+  gather_facts: false
+  hosts:
+    - all
+
+  vars:
+    account_name: { account_name }
+    vpc_name: { vpc_name }
+    tfstate_bucket: { tfstate_bucket }
+    
+  tasks:
+    - name: add opscenter IP to datastax agent address.yaml
+      become: true
+      shell: |
+        export region=$(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone | sed 's/\(.*\)[a-z]/\1/')
+        export opscenter_ip=$(aws ssm get-parameter --name "/dse/{{ account_name }}/{{ vpc_name }}/opscenter-resources/opscenter_primary_private_ip" --region ${region} | jq -r '.[].Value')        
+        sudo sed -i "s/[# ]*stomp_interface:.*/stomp_interface: ${opscenter_ip}/" /var/lib/datastax-agent/conf/address.yaml
+        aws s3 cp s3://{{ tfstate_bucket }}/{{ account_name }}/{{ vpc_name }}/opscenter-resources/files/etc/keystores/storage-server-keystore.jks /etc/dse/cassandra/keystores/storage-server-keystore.jks
+        chmod 755 /etc/dse/cassandra/keystores/storage-server-keystore.jks
+        chown cassandra:cassandra /etc/dse/cassandra/keystores/storage-server-keystore.jks
+      register: result
+
+    - debug: msg="{{ result.stdout }}"
+
+    - name: restart datastax-agent service
+      become: true
+      service:
+        name: datastax-agent
+        state: restarted

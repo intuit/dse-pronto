@@ -1,0 +1,170 @@
+{
+  "_comment": "Creates an AMI for DSE OpsCenter.",
+
+  "variables": {
+    "aws_profile": "{{env `AWS_PROFILE`}}",
+    "aws_region": "{{env `AWS_REGION`}}",
+    "vpc_region": "{{env `VPC_REGION`}}",
+    "packer_sg_id": "{{env `PACKER_SG_ID`}}",
+    "packer_subnet_id": "{{env `PACKER_SUBNET_ID`}}",
+    "packer_vpc_id": "{{env `PACKER_VPC_ID`}}",
+    "base_ami_id": "{{env `BASE_AMI_ID`}}",
+    "base_ami_name" : "{{env `BASE_AMI_NAME`}}",
+    "packer_ops_version": "{{env `PACKER_OPS_VER`}}",
+    "packer_dsagent_version": "{{env `PACKER_DSAGENT_VER`}}",
+    "packer_studio_version": "{{env `PACKER_STUDIO_VER`}}",
+    "packer_iam_profile": "{{env `PACKER_ROLE`}}"
+  },
+  "builders": [
+    {
+      "type": "amazon-ebs",
+      "name": "DSE Opscenter AMI",
+      "ami_description": "DSE Opscenter AMI",
+      "ami_name": "dse-opscenter-{{ user `packer_ops_version` }}-{{timestamp}}",
+      "profile": "{{user `aws_profile`}}",
+      "region": "{{user `aws_region`}}",
+      "ami_regions": ["{{user `vpc_region` }}"],
+
+      "instance_type": "m5.large",
+      "security_group_id": "{{user `packer_sg_id`}}",
+      "subnet_id": "{{user `packer_subnet_id`}}",
+      "vpc_id": "{{user `packer_vpc_id`}}",
+      "iam_instance_profile": "{{user `packer_iam_profile`}}",
+      "source_ami": "{{user `base_ami_id`}}",
+
+      "associate_public_ip_address": true,
+      "ena_support": true,
+      "ssh_interface": "public_ip",
+      "ssh_username": "ec2-user",
+      "ssh_timeout": "30m",
+      "ssh_handshake_attempts" : "50",
+
+      "ami_block_device_mappings": [
+        {
+          "device_name": "/dev/xvda",
+          "volume_size": 100,
+          "volume_type": "gp2",
+          "delete_on_termination": true
+        }
+      ],
+      "run_tags": {
+        "Name": "Packer Builder (DSE Opscenter)"
+      },
+      "tags": {
+        "CreationTime": "{{isotime \"01022006-150405\"}}",
+        "Name": "opscenter-{{user `packer_ops_version`}}",
+        "opscenter-version" : "{{user `packer_ops_version`}}",
+        "base-ami-id" :  "{{user `base_ami_id`}}",
+        "base-ami-name" :  "{{user `base_ami_name`}}",
+        "status": "available"
+      }
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "inline": [
+        "sudo yum update -y",
+        "sudo yum install -y bind-utils dnsmasq jq libaio lvm2 nc telnet wget"
+      ]
+    },
+    {
+      "type": "shell",
+      "inline": [
+        "cd /tmp",
+        "curl -s https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip -o awscliv2.zip",
+        "unzip -qq awscliv2.zip",
+        "mkdir -p /home/ec2-user/.local/aws",
+        "./aws/install -i /home/ec2-user/.local/aws -b /home/ec2-user/.local/bin",
+        "sudo rm -rf awscliv2.zip ./aws"
+      ]
+    },
+    {
+      "type": "file",
+      "source": "./include",
+      "destination": "/tmp"
+    },
+    {
+      "type": "shell",
+      "inline": [
+        "sudo yum install -y java-1.8.0-openjdk python3",
+        "mkdir /home/ec2-user/.pip/",
+        "sudo mv /tmp/include/pip.conf /home/ec2-user/.pip/pip.conf",
+        "python3 -m pip install --user --upgrade pip",
+        "python3 -m pip install --user --upgrade awsretry boto3 botocore requests requests_toolbelt",
+        "sudo python3 -m pip install --user --upgrade pip",
+        "sudo python3 -m pip install --user --upgrade awsretry boto3 botocore requests requests_toolbelt",
+        "sudo yum install -y yum install python-pip"
+      ]
+    },
+    {
+      "type": "shell",
+      "inline": [
+        "sudo mv /tmp/include/datastax.repo /etc/yum.repos.d/datastax.repo",
+        "sudo rpm --import https://rpm.datastax.com/rpm/repo_key",
+        "sudo yum install -y opscenter-{{user `packer_ops_version`}}",
+        "sudo yum install -y datastax-agent-{{user `packer_dsagent_version`}}"
+      ]
+    },
+    {
+      "type": "shell",
+      "inline": [
+        "sudo mv /tmp/include/limits.conf /etc/security/limits.conf",
+        "sudo mv /tmp/include/sysctl.conf /etc/sysctl.conf",
+        "sudo mv /tmp/include/ntp.conf /etc/ntp.conf",
+        "sudo chmod +x /tmp/include/update_auditd.sh",
+        "sudo /tmp/include/update_auditd.sh",
+        "sudo rm -rf /tmp/include"
+      ]
+    },
+    {
+      "type": "shell",
+      "inline": [
+        "cd /tmp && mkdir rpms && cd rpms",
+        "wget -q https://downloads.datastax.com/datastax-studio/datastax-studio-{{user `packer_studio_version`}}.tar.gz",
+        "sudo tar -xvf datastax-studio-{{user `packer_studio_version`}}.tar.gz -C /etc",
+        "sudo mv /etc/datastax-studio-{{user `packer_studio_version`}} /etc/datastax-studio",
+        "sudo chown opscenter:opscenter -R /etc/datastax-studio",
+        "cd /tmp && sudo rm -rf rpms"
+      ]
+    },
+    {
+      "type": "file",
+      "source": "ssl/opscenter.key.pem",
+      "destination": "/tmp/opscenter.key"
+    },
+    {
+      "type": "file",
+      "source": "ssl/opscenter.crt.pem",
+      "destination": "/tmp/opscenter.pem"
+    },
+    {
+      "type": "shell",
+      "inline": [
+        "sudo mv /tmp/opscenter.key /var/lib/opscenter/ssl/opscenter.key",
+        "sudo mv /tmp/opscenter.pem /var/lib/opscenter/ssl/opscenter.pem",
+        "sudo chown -R opscenter:opscenter /var/lib/opscenter/ssl"
+      ]
+    },
+    {
+      "type": "shell",
+      "inline": [
+        "mkdir -p /tmp/dp/opscenter"
+      ]
+    },
+    {
+      "type": "file",
+      "source": "./scripts",
+      "destination": "/tmp/dp/opscenter"
+    },
+    {
+      "type": "shell",
+      "inline": [
+        "sudo mkdir -p /etc/opscenter/scripts",
+        "sudo cp -R /tmp/dp/opscenter/scripts/* /etc/opscenter/scripts/",
+        "sudo chown opscenter:opscenter -R /etc/opscenter/scripts",
+        "sudo service opscenterd start"
+      ]
+    }
+  ]
+}

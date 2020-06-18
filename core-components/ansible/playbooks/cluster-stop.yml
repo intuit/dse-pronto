@@ -1,0 +1,18 @@
+---
+# This playbook stops the DSE service on the seed nodes, then the non-seeds, one at time.
+
+- name: stop DSE service
+  gather_facts: false
+  hosts:
+    - '{{ host_list }}'
+  serial: 1
+
+  tasks:
+    - name: nodetool drain
+      shell: "nodetool drain"
+      ignore_errors: true
+
+    - name: stop DSE service
+      service:
+        name: dse
+        state: stopped

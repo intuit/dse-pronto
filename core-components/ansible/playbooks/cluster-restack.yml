@@ -1,0 +1,101 @@
+---
+# This playbook restacks the cluster, performing the following actions on one node at a time:
+#     1. Drain and stop the current node
+#     2. Terminate the old node
+#     3. (cloud-init bootstrap) => new node will initialize, attaching ENI and storage, starting DSE service
+#     4. Wait for UN (up normal)
+#     5. Sleep 5 minutes, allowing the cluster time to settle before moving on to next node
+
+- name: restack DSE cluster
+  gather_facts: false
+  any_errors_fatal: true
+  hosts:
+    - '{{ host_list }}'
+  order: inventory
+  serial: 1
+
+  vars:
+    account: { account }
+    role_name: { role_name }
+    region: { region }
+    cluster: { cluster }
+
+  tasks:
+    - name: capture hostip
+      shell: hostname -I | awk {'print $1'}
+      register: host_ip
+
+    - debug: msg="using hostname {{ host_ip.stdout }}"
+
+    - name: gather drain time
+      shell: TZ=":US/Pacific" date
+      register: drain_time
+
+    - debug: msg="drain time is {{ drain_time.stdout }}"
+
+    - name: 1 Drain
+      shell: "nodetool drain"
+      ignore_errors: true
+
+    - name: 2 Stop the DSE service
+      service:
+        name: dse
+        state: stopped
+      ignore_errors: true
+
+    - name: 3 Unmount the volumes
+      become: true
+      shell: |
+        umount /mnt/cassandra-data-primary && sleep 120
+        umount /mnt/cassandra-data-secondary && sleep 120
+      ignore_errors: true
+
+    - name: 4 Detach the storage from current
+      become: true
+      shell: "/opt/dse/cassandra/scripts/cas_ebs_mgr.py -a {{ account }} -r {{ region }} -c {{ cluster }} -o detach -l {{ inventory_hostname }}"
+      register: result_detach_storage
+
+    - name: 5 Assume role for local action
+      shell: aws sts assume-role --role-arn "arn:aws:iam::{{ account }}:role/{{ role_name }}" --role-session-name ansible
+      delegate_to: localhost
+      register: assumed_role
+
+    - set_fact:
+        sts_output: "{{ assumed_role.stdout|from_json }}"
+
+    - name: 6 (running locally) Terminate the node in ASG, wait for replacement
+      shell: |
+        export AWS_ACCESS_KEY_ID="{{ sts_output|json_query('Credentials.AccessKeyId') }}"
+        export AWS_SECRET_ACCESS_KEY="{{ sts_output|json_query('Credentials.SecretAccessKey') }}"
+        export AWS_SESSION_TOKEN="{{ sts_output|json_query('Credentials.SessionToken') }}"
+        ../../packer/cassandra/scripts/cas_asg_mgr.py -a {{ account }} -c {{ cluster }} -o reset -n {{ inventory_hostname }}
+        unset AWS_ACCESS_KEY_ID
+        unset AWS_SECRET_ACCESS_KEY
+        unset AWS_SESSION_TOKEN
+      delegate_to: localhost
+      register: result
+    - debug: msg="{{ result.stdout }}"
+
+    # 9142 = dse client port (ssl)
+    - wait_for:
+        port: 9142
+        host: "{{ host_ip.stdout }}"
+        delay: 10
+        timeout: 600
+
+    - name: 7 Wait for UN
+      shell: nodetool status | grep "{{ host_ip.stdout }}" | awk {'print $1'}
+      register: result
+      until: result.stdout.find("UN") != -1
+      retries: 30
+      delay: 10
+
+    - name: gather end time
+      action: shell TZ=":US/Pacific" date
+      register: end_time
+
+    - debug: msg="{{ end_time.stdout }}"
+
+    - name: sleep for 5 mins
+      become: true
+      action: shell sleep 300
