@@ -17,12 +17,12 @@ The tools in this repo can take you from an empty AWS account to a fully-functio
 understanding of AWS resources, Cassandra cluster management, and at least a passing familiarity with Packer, Terraform,
 and Ansible.
 
-**This is not a "managed" Cassandra solution.**  If you need one of those, [AWS has you covered](https://aws.amazon.com/mcs/).
+**This is not a "managed" Cassandra solution.**  If you need one of those, [AWS has you covered](https://aws.amazon.com/keyspaces/).
 If you need a fully managed _DataStax_ solution including OpsCenter and other DSE features,
-[DataStax themselves have one](https://www.datastax.com/services/datastax-managed-services) in limited release.
+[DataStax Astra](https://www.datastax.com/products/datastax-astra) is now officially a thing.
 
 On the other hand, if what you're looking for is an open source framework to help you _manage your own_ DSE cluster...
-then welcome to Pronto!
+then welcome to DSE Pronto!
 
 ## Notes and Features
 
@@ -45,16 +45,16 @@ then welcome to Pronto!
 
 ## Tools Required
 
-* **On MacOS:** `brew install awscli coreutils packer ansible tfenv jq && tfenv install 0.11.14`
+* **On MacOS:** `brew install awscli coreutils packer ansible tfenv jq && tfenv install 0.12.24`
   * The scripts in this repo require a minimum of `aws-cli/1.16.280` and `botocore/1.13.16`.  Type `aws --version` to verify.
     * Everything has also been tested with `aws-cli/2.0.0` and associated prerequisites.
   * Some scripts also require Python 3 ([installation](https://docs.python-guide.org/starting/install3/osx/)).
 * **In Docker:** the included [Dockerfile](./Dockerfile) will produce a suitable Docker image, including all tools needed.
 * Elsewhere:
   * Install Packer: https://www.packer.io/intro/getting-started/install.html
-  * Install Terraform (0.11.14): https://www.terraform.io/intro/getting-started/install.html
+  * Install Terraform (0.12.24): https://www.terraform.io/intro/getting-started/install.html
   * install Ansible: https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html
-* **Why Terraform 0.11.14?** Go [here](docs/MORE_DETAILS.md) to find out!
+* **Why Terraform 0.12.24?** Go [here](docs/MORE_DETAILS.md) to find out!
 
 ## 1. Initial Setup
 
