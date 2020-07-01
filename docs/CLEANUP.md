@@ -9,8 +9,8 @@ and working backwards:
 ```
 $ ./core-components/deploy.sh -a ${ACCOUNT_NAME} -v ${VPC_NAME} -c ${CLUSTER_NAME} -l opscenter -m destroy
 $ ./core-components/deploy.sh -a ${ACCOUNT_NAME} -v ${VPC_NAME} -c ${CLUSTER_NAME} -l cluster -m destroy
-$ ./core-components/deploy.sh -a ${ACCOUNT_NAME} -v ${VPC_NAME} -c ${CLUSTER_NAME} -l account -m destroy
 $ ./core-components/deploy.sh -a ${ACCOUNT_NAME} -v ${VPC_NAME} -c ${CLUSTER_NAME} -l vpc -m destroy
+$ ./core-components/deploy.sh -a ${ACCOUNT_NAME} -v ${VPC_NAME} -c ${CLUSTER_NAME} -l account -m destroy
 ```
 * **Note** that each `destroy` command will pause and ask you for manual verification.  You must type "yes."  The `-auto-approve`
   flag hasn't been added (in terraform.sh) for destroy commands, but it can be if you're feeling adventurous.
