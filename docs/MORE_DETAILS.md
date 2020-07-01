@@ -6,6 +6,11 @@
   downloadable without a "DataStax Academy" login.  However, artifacts are now
   [publicly accessible](https://docs.datastax.com/en/install/6.7/install/installRHELdse.html), so the Packer AMI bake
   simply runs `yum install` after adding the appropriate repository.  No credentials needed.
+* **Why Terraform 0.12.24?**  This repo operates using what is (at the time of this writing) the latest version of Terraform.
+  Upgrading to new Terraform versions is generally a fairly backwards-incompatible process, as your state files will be 
+  written in a way that prevents you from using any old versions.  Given that, upgrading to newer versions of Terraform 
+  is something to be undertaken with at least a little bit of care; therefore we use `tfenv` to install a specific (tested, 
+  working) version rather than simply "latest" at all times.
 * **Why do we need routes to a NATGW?**  Management scripts (built into the AMI by Packer) will need access to the AWS SDK in
   order to describe instances, locate EBS volumes, apply EC2 tags, etc.  Without these routes, instances in the Data subnet
   tier can't reach AWS HTTP endpoints like `ec2.amazonaws.com`.
